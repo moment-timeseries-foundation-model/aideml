@@ -409,9 +409,9 @@ class Agent:
             ),
         )
 
-        print('Response:', response)
+        print("Response:", response)
         # manually set the metric to None if it's not in the response
-        if "metric" not in response:  
+        if "metric" not in response:
             response["metric"] = None
         # if the metric isn't a float then fill the metric with the worst metric
         elif not isinstance(response["metric"], float):

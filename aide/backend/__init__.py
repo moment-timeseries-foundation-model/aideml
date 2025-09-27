@@ -22,11 +22,17 @@ MODEL_COST = {
     "claude-3-7-sonnet-20250219-think": {"input": 3 / 1000000, "output": 15 / 1000000},
     "claude-3-5-sonnet-20241022": {"input": 3 / 1000000, "output": 15 / 1000000},
     "claude-3-5-sonnet-20241022-think": {"input": 3 / 1000000, "output": 15 / 1000000},
-    "gemini-2.5-flash-preview-05-20": {"input": 0.15 / 1000000, "output": 3.5 / 1000000},
+    "gemini-2.5-flash-preview-05-20": {
+        "input": 0.15 / 1000000,
+        "output": 3.5 / 1000000,
+    },
     "gemini-2.5-pro-preview-06-05": {"input": 1.25 / 1000000, "output": 10 / 1000000},
     "deepseek-reasoner": {"input": 0.55 / 1000000, "output": 2.19 / 1000000},
     "deepseek-chat": {"input": 0.27 / 1000000, "output": 1.1 / 1000000},
-    "Llama-4-Maverick-17B-128E-Instruct-FP8": {"input": 0 / 1000000, "output": 0 / 1000000},
+    "Llama-4-Maverick-17B-128E-Instruct-FP8": {
+        "input": 0 / 1000000,
+        "output": 0 / 1000000,
+    },
     "Llama-3.3-8B-Instruct": {"input": 0 / 1000000, "output": 0 / 1000000},
     "Llama-3.3-70B-Instruct": {"input": 0 / 1000000, "output": 0 / 1000000},
 }

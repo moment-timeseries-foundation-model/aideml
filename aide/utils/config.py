@@ -50,6 +50,7 @@ class AgentConfig:
     search: SearchConfig
     cost_limit: int | None = None
 
+
 @dataclass
 class ExecConfig:
     timeout: int

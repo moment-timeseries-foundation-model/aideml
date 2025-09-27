@@ -73,24 +73,27 @@ def query(
 
     messages = opt_messages_to_list(None, user_message)
     think = False
-    if ('claude-sonnet-4' in model_name or 'claude-opus-4' in model_name) and func_spec is not None:
-        if model_name.endswith('-think'):
+    if (
+        "claude-sonnet-4" in model_name or "claude-opus-4" in model_name
+    ) and func_spec is not None:
+        if model_name.endswith("-think"):
             think = True
             print("interleaved thinking enabled...")
             filtered_kwargs["extra_headers"] = {
-            "anthropic-beta": "interleaved-thinking-2025-05-14"
+                "anthropic-beta": "interleaved-thinking-2025-05-14"
             }
-    
-    if ('claude-sonnet-4' in model_name or 'claude-opus-4' in model_name or 'claude-3-7-sonnet' in model_name) and func_spec is None:
-        if model_name.endswith('-think'):
+
+    if (
+        "claude-sonnet-4" in model_name
+        or "claude-opus-4" in model_name
+        or "claude-3-7-sonnet" in model_name
+    ) and func_spec is None:
+        if model_name.endswith("-think"):
             think = True
             print("extended thinking enabled...")
-            filtered_kwargs["thinking"] = {
-            "type": "enabled",
-            "budget_tokens": 10000
-            }
+            filtered_kwargs["thinking"] = {"type": "enabled", "budget_tokens": 10000}
             filtered_kwargs["temperature"] = 1
-    if model_name.endswith('-think'):
+    if model_name.endswith("-think"):
         # remove trailing '-think' from model name
         filtered_kwargs["model"] = model_name[:-6]
     t0 = time.time()
@@ -115,7 +118,7 @@ def query(
             block.name == func_spec.name
         ), f"Function name mismatch: expected {func_spec.name}, got {block.name}"
         output = block.input  # Anthropic calls the parameters "input"
-    
+
     # handle thinking if enabled
     elif think:
         for block in message.content:

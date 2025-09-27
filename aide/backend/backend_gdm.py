@@ -6,7 +6,14 @@ import os
 
 from google.api_core import exceptions
 from google import genai
-from google.genai.types import HarmCategory, HarmBlockThreshold, SafetySetting, GenerateContentConfig, Tool
+from google.genai.types import (
+    HarmCategory,
+    HarmBlockThreshold,
+    SafetySetting,
+    GenerateContentConfig,
+    Tool,
+)
+
 # from google.generativeai.generative_models import generation_types
 
 from funcy import notnone, once, select_values
@@ -66,9 +73,7 @@ def query(
     max_output_tokens = filtered_kwargs.get("max_output_tokens", None)
 
     if func_spec is not None:
-        tools = [
-            Tool(function_declarations=[func_spec.as_gdm_tool_dict])
-                ]
+        tools = [Tool(function_declarations=[func_spec.as_gdm_tool_dict])]
         generation_config = GenerateContentConfig(
             tools=tools,
             temperature=temperature,
@@ -106,9 +111,7 @@ def query(
             function_call = part.function_call
             break
     if func_spec is not None:
-        assert (
-            function_call is not None
-        ), "Function call not found in response"
+        assert function_call is not None, "Function call not found in response"
         func_name = function_call.name
         assert (
             func_name == func_spec.name
