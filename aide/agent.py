@@ -426,6 +426,9 @@ class Agent:
 
         if node.is_buggy:
             logger.info(f"Parsed results: Node {node.id} is buggy")
+            #add more detailed reason
+            if node.exc_type is not None:
+                logger.info(f"Node {node.id} execution error type: {node.exc_type}")
             node.metric = WorstMetricValue()
         else:
             logger.info(f"Parsed results: Node {node.id} is not buggy")
