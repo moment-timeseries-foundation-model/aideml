@@ -3,6 +3,7 @@
 import json
 import logging
 import time
+import os
 
 from aide.backend.utils import (
     FunctionSpec,
@@ -32,6 +33,24 @@ def _setup_openai_client():
     _client = openai.OpenAI(max_retries=0)
 
 
+def _setup_llama_client():
+    global _client
+    _client = openai.OpenAI(
+        api_key=os.environ["LLAMA_API_KEY"],
+        base_url="https://api.llama.com/compat/v1/",
+        max_retries=0,
+    )
+
+
+def _setup_deepseek_client():
+    global _client
+    _client = openai.OpenAI(
+        api_key=os.environ["DEEPSEEK_API_KEY"],
+        base_url="https://api.deepseek.com",
+        max_retries=0,
+    )
+
+
 def query(
     system_message: str | None,
     user_message: str | None,
@@ -39,7 +58,14 @@ def query(
     convert_system_to_user: bool = False,
     **model_kwargs,
 ) -> tuple[OutputType, float, int, int, dict]:
-    _setup_openai_client()
+
+    if model_kwargs.get("model", "").startswith("Llama-"):
+        _setup_llama_client()
+    elif model_kwargs.get("model", "").startswith("deepseek-"):
+        _setup_deepseek_client()
+    else:
+        _setup_openai_client()
+
     filtered_kwargs: dict = select_values(notnone, model_kwargs)  # type: ignore
 
     messages = opt_messages_to_list(
@@ -65,6 +91,9 @@ def query(
     if func_spec is None:
         output = choice.message.content
     else:
+        # print('choice.message', choice.message)
+        # print('messages', messages)
+        # print('tools', filtered_kwargs["tools"])
         assert (
             choice.message.tool_calls
         ), f"function_call is empty, it is not a function call: {choice.message}"

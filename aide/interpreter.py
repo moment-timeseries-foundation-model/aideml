@@ -139,8 +139,8 @@ class Interpreter:
         while True:
             code = code_inq.get()
             os.chdir(str(self.working_dir))
-            with open(self.agent_file_name, "w") as f:
-                f.write(code)
+            # with open(self.agent_file_name, "w") as f:
+            #     f.write(code)
 
             event_outq.put(("state:ready",))
             try:
@@ -232,9 +232,7 @@ class Interpreter:
             assert self.process is not None
 
         assert self.process.is_alive()
-
         self.code_inq.put(code)
-
         # wait for child to actually start execution (we don't want interrupt child setup)
         try:
             state = self.event_outq.get(timeout=10)

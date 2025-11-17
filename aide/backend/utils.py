@@ -78,7 +78,6 @@ class FunctionSpec(DataClassJsonMixin):
                 "description": self.description,
                 "parameters": self.json_schema,
             },
-            "strict": True,
         }
 
     @property
@@ -86,4 +85,29 @@ class FunctionSpec(DataClassJsonMixin):
         return {
             "type": "function",
             "function": {"name": self.name},
+        }
+
+    @property
+    def as_anthropic_tool_dict(self):
+        """Convert to Anthropic's tool format."""
+        return {
+            "name": self.name,
+            "description": self.description,
+            "input_schema": self.json_schema,  # Anthropic uses input_schema instead of parameters
+        }
+
+    @property
+    def anthropic_tool_choice_dict(self):
+        """Convert to Anthropic's tool choice format."""
+        return {
+            "type": "tool",  # Anthropic uses "tool" instead of "function"
+            "name": self.name,
+        }
+
+    @property
+    def as_gdm_tool_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "parameters": self.json_schema,
         }
